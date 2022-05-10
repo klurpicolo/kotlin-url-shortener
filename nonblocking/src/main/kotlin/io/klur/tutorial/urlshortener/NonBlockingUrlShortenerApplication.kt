@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class NonBlockingUrlShortenerApplication
 
 fun main(args: Array<String>) {
-	runApplication<NonBlockingUrlShortenerApplication>(*args)
+    runApplication<NonBlockingUrlShortenerApplication>(*args)
 }

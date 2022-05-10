@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class BlockingUrlShortenerApplication
 
 fun main(args: Array<String>) {
-	runApplication<BlockingUrlShortenerApplication>(*args)
+    runApplication<BlockingUrlShortenerApplication>(*args)
 }

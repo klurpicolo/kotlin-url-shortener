@@ -20,15 +20,15 @@ class AppConfiguration {
     lateinit var redisPort: String
 
     @Bean
-    @ConditionalOnProperty(name= ["app.cache.type"], havingValue="redis")
+    @ConditionalOnProperty(name = ["app.cache.type"], havingValue = "redis")
     fun redisConnectionFactory(): RedisConnectionFactory {
         return LettuceConnectionFactory(redisHost, redisPort.toInt())
     }
 
     @Bean
-    @ConditionalOnProperty(name= ["app.cache.type"], havingValue="redis")
+    @ConditionalOnProperty(name = ["app.cache.type"], havingValue = "redis")
     fun redisTemplate(): RedisTemplate<String, String> {
-        val template  = RedisTemplate<String, String>()
+        val template = RedisTemplate<String, String>()
         template.setConnectionFactory(redisConnectionFactory())
         template.keySerializer = StringRedisSerializer()
         template.valueSerializer = StringRedisSerializer()
@@ -36,13 +36,13 @@ class AppConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name= ["app.cache.type"], havingValue="redis")
+    @ConditionalOnProperty(name = ["app.cache.type"], havingValue = "redis")
     fun appRedisCache(redisTemplate: RedisTemplate<String, String>): UrlCache {
         return RedisCache(redisTemplate)
     }
 
     @Bean
-    @ConditionalOnProperty(name= ["app.cache.type"], havingValue="hashMap")
+    @ConditionalOnProperty(name = ["app.cache.type"], havingValue = "hashMap")
     fun appHashMapCache(): UrlCache {
         return HashMapCache(hashMapOf())
     }

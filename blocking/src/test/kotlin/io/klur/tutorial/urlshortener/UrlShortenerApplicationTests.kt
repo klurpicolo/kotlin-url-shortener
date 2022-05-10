@@ -12,53 +12,59 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-@SpringBootTest(classes = [TestConfig::class],
-	webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    classes = [TestConfig::class],
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
 class UrlShortenerApplicationTests {
 
-	@Autowired
-	lateinit var restTemplate: TestRestTemplate
+    @Autowired
+    lateinit var restTemplate: TestRestTemplate
 
-	@LocalServerPort
-	protected var port: Int = 0
+    @LocalServerPort
+    protected var port: Int = 0
 
-	@Test
-	@Order(1)
-	fun generate() {
-		val res = restTemplate.postForEntity("http://localhost:$port/generate",
-			LongUrlReq("https://www.baeldung.com/kotlin/spring-boot-testing"),
-			ShortUrlRes::class.java
-		)
+    @Test
+    @Order(1)
+    fun generate() {
+        val res = restTemplate.postForEntity(
+            "http://localhost:$port/generate",
+            LongUrlReq("https://www.baeldung.com/kotlin/spring-boot-testing"),
+            ShortUrlRes::class.java
+        )
 
-		assertThat(res.statusCode).isEqualTo(HttpStatus.OK)
-	}
+        assertThat(res.statusCode).isEqualTo(HttpStatus.OK)
+    }
 
-	@Test
-	@Order(2)
-	fun get() {
-		val res = restTemplate.getForEntity("http://localhost:$port/cffcfb1d",
-			String.Companion::class.java
-		)
-		assertThat(res.statusCode).isEqualTo(HttpStatus.PERMANENT_REDIRECT)
-	}
+    @Test
+    @Order(2)
+    fun get() {
+        val res = restTemplate.getForEntity(
+            "http://localhost:$port/cffcfb1d",
+            String.Companion::class.java
+        )
+        assertThat(res.statusCode).isEqualTo(HttpStatus.PERMANENT_REDIRECT)
+    }
 
-	@Test
-	@Order(3)
-	fun notGenerateNullUrl() {
-		val res = restTemplate.postForEntity("http://localhost:$port/generate",
-			LongUrlReq(null),
-			Any::class.java
-		)
-		assertThat(res.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
-	}
+    @Test
+    @Order(3)
+    fun notGenerateNullUrl() {
+        val res = restTemplate.postForEntity(
+            "http://localhost:$port/generate",
+            LongUrlReq(null),
+            Any::class.java
+        )
+        assertThat(res.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+    }
 
-	@Test
-	@Order(4)
-	fun notGenerateInvalidUrl() {
-		val res = restTemplate.postForEntity("http://localhost:$port/generate",
-			LongUrlReq("invalidUrlInput"),
-			String.Companion::class.java
-		)
-		assertThat(res.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
-	}
+    @Test
+    @Order(4)
+    fun notGenerateInvalidUrl() {
+        val res = restTemplate.postForEntity(
+            "http://localhost:$port/generate",
+            LongUrlReq("invalidUrlInput"),
+            String.Companion::class.java
+        )
+        assertThat(res.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+    }
 }

@@ -14,9 +14,10 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 
 @RestController
-class Controller(@Value("\${server.port}")
-                 private val port: Int,
-                 private val urlCache: UrlCache
+class Controller(
+    @Value("\${server.port}")
+    private val port: Int,
+    private val urlCache: UrlCache
 ) {
 
     private val log = KotlinLogging.logger {}
@@ -35,7 +36,8 @@ class Controller(@Value("\${server.port}")
 
     @PostMapping(value = ["/generate"])
     suspend fun generate(@RequestBody @Valid urlReq: LongUrlReq): ResponseEntity<ShortUrlRes> {
-        val shortenUrl = Hashing.murmur3_32_fixed().hashString(urlReq.url.orEmpty(), StandardCharsets.UTF_8).toString()
+        val shortenUrl =
+            Hashing.murmur3_32_fixed().hashString(urlReq.url.orEmpty(), StandardCharsets.UTF_8).toString()
         urlCache.put(shortenUrl, urlReq.url.orEmpty()).awaitSingleOrNull()
         log.info("$shortenUrl is generated from ${urlReq.url}")
         return ResponseEntity.status(HttpStatus.OK)

@@ -9,7 +9,7 @@ interface UrlCache {
     fun put(key: String, value: String): Mono<Unit>
 }
 
-class HashMapCache(private val cache: MutableMap<String, String>): UrlCache {
+class HashMapCache(private val cache: MutableMap<String, String>) : UrlCache {
 
     override fun get(key: String): Mono<String?> {
         return Mono.justOrEmpty(cache[key])
@@ -21,7 +21,7 @@ class HashMapCache(private val cache: MutableMap<String, String>): UrlCache {
     }
 }
 
-class RedisCache(private val ops: ReactiveValueOperations<String, String>): UrlCache {
+class RedisCache(private val ops: ReactiveValueOperations<String, String>) : UrlCache {
 
     override fun get(key: String): Mono<String?> {
         return ops.get(key)
