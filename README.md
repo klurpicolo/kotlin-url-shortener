@@ -1,4 +1,4 @@
-#Simple URL-shortener using Kotlin and Spring boot
+# Simple URL-shortener using Kotlin and Spring boot
 including integration test and postman test script
 
 2 modules
